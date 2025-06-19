@@ -33,8 +33,8 @@ export class CreateAuthDto {
   @IsNumber()
   initial_balance?: number;
 
-  @ApiProperty({ example: 1, description: 'Parent agent ID for sub-agents' })
-  @IsOptional()
-  @IsNumber()
-  parent_agent_id?: number;
+  // @ApiProperty({ example: 1, description: 'Parent agent ID for sub-agents' })
+  // @IsOptional()
+  // @IsNumber()
+  // parent_agent_id?: number;
 }

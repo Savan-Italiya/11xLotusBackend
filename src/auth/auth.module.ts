@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { User } from '../user/entities/user.entity';
+import { RoleModule } from '../role/role.module';
 
 @Module({
   imports: [
@@ -12,9 +13,10 @@ import { User } from '../user/entities/user.entity';
       secret: process.env.JWT_SECRET || 'your-secret-key',
       signOptions: { expiresIn: '24h' },
     }),
+    RoleModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }

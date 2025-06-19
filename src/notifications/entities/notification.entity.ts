@@ -40,6 +40,6 @@ export class Notification {
   @ManyToOne(() => User, user => user.id)
   user: User;
 
-  @ManyToOne(() => Game, game => game.notifications)
+  @ManyToOne(() => Game, game => game.id)
   game: Game;
 } 

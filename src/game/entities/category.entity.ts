@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Game } from './game.entity';
 
 @Entity('categories')
 export class Category {
@@ -19,7 +18,4 @@ export class Category {
   @ApiProperty({ description: 'Record creation timestamp' })
   @CreateDateColumn()
   created_at: Date;
-
-  @OneToMany(() => Game, game => game.category)
-  games: Game[];
 } 

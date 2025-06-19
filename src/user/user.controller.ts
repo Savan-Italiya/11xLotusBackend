@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, HttpCode, HttpStatus, BadRequestException } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -11,7 +11,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 // @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('JWT-auth')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })
@@ -45,7 +45,11 @@ export class UserController {
   @ApiResponse({ status: 404, description: 'User not found.' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    const numericId = parseInt(id, 10);
+    if (isNaN(numericId)) {
+      throw new BadRequestException('Invalid user ID. ID must be a valid number.');
+    }
+    return this.userService.findOne(numericId);
   }
 
   @Patch(':id')
@@ -66,65 +70,65 @@ export class UserController {
     return this.userService.remove(+id);
   }
 
-  @Get('email/:email')
-  @ApiOperation({ summary: 'Get user by email' })
-  @ApiResponse({ status: 200, description: 'Return the user.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  findByEmail(@Param('email') email: string) {
-    return this.userService.findByEmail(email);
-  }
+  // @Get('email/:email')
+  // @ApiOperation({ summary: 'Get user by email' })
+  // @ApiResponse({ status: 200, description: 'Return the user.' })
+  // @ApiResponse({ status: 404, description: 'User not found.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  // findByEmail(@Param('email') email: string) {
+  //   return this.userService.findByEmail(email);
+  // }
 
-  @Get('mobile/:mobile')
-  @ApiOperation({ summary: 'Get user by mobile number' })
-  @ApiResponse({ status: 200, description: 'Return the user.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  findByMobile(@Param('mobile') mobile: string) {
-    return this.userService.findByMobile(mobile);
-  }
+  // @Get('mobile/:mobile')
+  // @ApiOperation({ summary: 'Get user by mobile number' })
+  // @ApiResponse({ status: 200, description: 'Return the user.' })
+  // @ApiResponse({ status: 404, description: 'User not found.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  // findByMobile(@Param('mobile') mobile: string) {
+  //   return this.userService.findByMobile(mobile);
+  // }
 
-  @Get('username/:username')
-  @ApiOperation({ summary: 'Get user by username' })
-  @ApiResponse({ status: 200, description: 'Return the user.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  findByUsername(@Param('username') username: string) {
-    return this.userService.findByUsername(username);
-  }
+  // @Get('username/:username')
+  // @ApiOperation({ summary: 'Get user by username' })
+  // @ApiResponse({ status: 200, description: 'Return the user.' })
+  // @ApiResponse({ status: 404, description: 'User not found.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  // findByUsername(@Param('username') username: string) {
+  //   return this.userService.findByUsername(username);
+  // }
 
-  @Get('role/:roleId')
-  @ApiOperation({ summary: 'Get users by role' })
-  @ApiResponse({ status: 200, description: 'Return users with the specified role.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  findByRole(@Param('roleId') roleId: string) {
-    return this.userService.findByRole(+roleId);
-  }
+  // @Get('role/:roleId')
+  // @ApiOperation({ summary: 'Get users by role' })
+  // @ApiResponse({ status: 200, description: 'Return users with the specified role.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  // findByRole(@Param('roleId') roleId: string) {
+  //   return this.userService.findByRole(+roleId);
+  // }
 
-  @Get('active/status')
-  @ApiOperation({ summary: 'Get users by active status' })
-  @ApiResponse({ status: 200, description: 'Return users based on active status.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  findByActiveStatus(@Query('isActive') isActive: boolean) {
-    return this.userService.findByActiveStatus(isActive);
-  }
+  // @Get('active/status')
+  // @ApiOperation({ summary: 'Get users by active status' })
+  // @ApiResponse({ status: 200, description: 'Return users based on active status.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  // findByActiveStatus(@Query('isActive') isActive: boolean) {
+  //   return this.userService.findByActiveStatus(isActive);
+  // }
 
-  @Get('pagination')
-  @ApiOperation({ summary: 'Get users with pagination' })
-  @ApiResponse({ status: 200, description: 'Return paginated users.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  findWithPagination(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10
-  ) {
-    return this.userService.findWithPagination(page, limit);
-  }
+  // @Get('pagination')
+  // @ApiOperation({ summary: 'Get users with pagination' })
+  // @ApiResponse({ status: 200, description: 'Return paginated users.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  // findWithPagination(
+  //   @Query('page') page: number = 1,
+  //   @Query('limit') limit: number = 10
+  // ) {
+  //   return this.userService.findWithPagination(page, limit);
+  // }
 
-  @Get('count')
-  @ApiOperation({ summary: 'Get total count of users' })
-  @ApiResponse({ status: 200, description: 'Return total count of users.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  getCount() {
-    return this.userService.getCount();
-  }
+  // @Get('count')
+  // @ApiOperation({ summary: 'Get total count of users' })
+  // @ApiResponse({ status: 200, description: 'Return total count of users.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  // getCount() {
+  //   return this.userService.getCount();
+  // }
 }

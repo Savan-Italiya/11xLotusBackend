@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '../../role/entities/role.entity';
 
 
-@Entity('Users')
+@Entity('users')
 export class User {
   @ApiProperty({ example: 1, description: 'Primary key - User ID' })
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })

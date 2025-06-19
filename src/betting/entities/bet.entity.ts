@@ -44,6 +44,6 @@ export class Bet {
   @OneToOne(() => User, user => user.id)
   user: User;
 
-  @ManyToOne(() => Game, game => game.bets)
+  @ManyToOne(() => Game, game => game.id)
   game: Game;
 } 

@@ -1,10 +1,6 @@
 import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './category.entity';
-import { Bet } from '../../betting/entities/bet.entity';
-import { GameResult } from './game-result.entity';
-import { GameRule } from './game-rule.entity';
-import { Notification } from '../../notifications/entities/notification.entity';
 
 @Entity('Game')
 export class Game {
@@ -44,18 +40,6 @@ export class Game {
   @UpdateDateColumn()
   modified_at: Date;
 
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, category => category.id)
   category: Category;
-
-  @OneToMany(() => Bet, bet => bet.game)
-  bets: Bet[];
-
-  @OneToMany(() => GameResult, result => result.game)
-  results: GameResult[];
-
-  @OneToMany(() => GameRule, rule => rule.game)
-  rules: GameRule[];
-
-  @OneToMany(() => Notification, notification => notification.game)
-  notifications: Notification[];
 }

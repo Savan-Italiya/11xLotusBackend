@@ -20,6 +20,6 @@ export class GameResult {
   @CreateDateColumn()
   result_time: Date;
 
-  @ManyToOne(() => Game, game => game.results)
+  @ManyToOne(() => Game, game => game.id)
   game: Game;
 } 

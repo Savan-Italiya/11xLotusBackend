@@ -24,6 +24,6 @@ export class GameRule {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => Game, game => game.rules)
+  @ManyToOne(() => Game, game => game.id)
   game: Game;
 } 

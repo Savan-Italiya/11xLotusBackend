@@ -3,11 +3,15 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
+import { RoleService } from '../role/role.service';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly roleService: RoleService,
+  ) { }
 
   @Post('register/superagent')
   @ApiOperation({ summary: 'Register a new superagent' })
@@ -15,7 +19,8 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiResponse({ status: 409, description: 'User already exists.' })
   async registerSuperAgent(@Body() createAuthDto: CreateAuthDto) {
-    createAuthDto.role_id = 1; // SuperAgent role
+    const superAgentRole = await this.roleService.findByName('Super_agent');
+    createAuthDto.role_id = Number(superAgentRole.id);
     return this.authService.register(createAuthDto);
   }
 
@@ -25,7 +30,9 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiResponse({ status: 409, description: 'User already exists.' })
   async registerSubAgent(@Body() createAuthDto: CreateAuthDto) {
-    createAuthDto.role_id = 2; // SubAgent role
+    // createAuthDto.role_id = 2;
+    const superAgentRole = await this.roleService.findByName('Sub_agent');
+    createAuthDto.role_id = Number(superAgentRole.id);
     return this.authService.register(createAuthDto);
   }
 
@@ -35,7 +42,8 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiResponse({ status: 409, description: 'User already exists.' })
   async registerSubAdmin(@Body() createAuthDto: CreateAuthDto) {
-    createAuthDto.role_id = 3; // SubAdmin role
+    const superAgentRole = await this.roleService.findByName('Sub_admin');
+    createAuthDto.role_id = Number(superAgentRole.id);
     return this.authService.register(createAuthDto);
   }
 
@@ -45,7 +53,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiResponse({ status: 409, description: 'User already exists.' })
   async registerUser(@Body() createAuthDto: CreateAuthDto) {
-    createAuthDto.role_id = 4; // Normal User role
+    createAuthDto.role_id = 4;
     return this.authService.register(createAuthDto);
   }
 

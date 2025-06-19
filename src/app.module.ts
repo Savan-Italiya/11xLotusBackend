@@ -9,6 +9,8 @@ import { SportsModule } from './sports/sports.module';
 import { AuthModule } from './auth/auth.module';
 import { WalletModule } from './wallet/wallet.module';
 import { RoleModule } from './role/role.module';
+import { PassportModule } from '@nestjs/passport';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -26,11 +28,14 @@ import { RoleModule } from './role/role.module';
         database: configService.get('DB_DATABASE'),
         ssl: configService.get('DB_SSL') === 'true',
         autoLoadEntities: true,
-        synchronize: configService.get('NODE_ENV') !== 'production',
-        logging: configService.get('NODE_ENV') !== 'production',
+        //  synchronize: configService.get('NODE_ENV') !== 'production',
+        //  logging: configService.get('NODE_ENV') !== 'production',
+        synchronize: true,
+        logging: true,
       }),
       inject: [ConfigService],
     }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     UserModule,
     GameModule,
     PaymentModule,
@@ -39,7 +44,7 @@ import { RoleModule } from './role/role.module';
     AuthModule,
     WalletModule,
     RoleModule,
-    // PassportModule.register({ defaultStrategy: 'jwt' }),
+    NotificationsModule,
   ],
   controllers: [],
   providers: [],

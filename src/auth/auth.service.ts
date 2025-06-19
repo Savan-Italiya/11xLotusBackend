@@ -6,7 +6,6 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../user/entities/user.entity';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { IsOptional, IsNumber } from 'class-validator';
 
 @Injectable()
 export class AuthService {
@@ -14,29 +13,23 @@ export class AuthService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async register(createAuthDto: CreateAuthDto) {
-    // Check if user already exists
     const existingUser = await this.userRepository.findOne({
       where: [
         { email: createAuthDto.email },
         { username: createAuthDto.username },
-        { mobile_number: createAuthDto.mobile_number },
       ],
     });
 
     if (existingUser) {
       throw new ConflictException('User already exists');
     }
-
-    // Validate role-specific requirements
     await this.validateRoleSpecificRequirements(createAuthDto);
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(createAuthDto.password, 10);
 
-    // Create new user with role-specific data
     const user = this.userRepository.create({
       ...createAuthDto,
       password: hashedPassword,
@@ -47,7 +40,7 @@ export class AuthService {
     await this.userRepository.save(user);
 
     // Generate JWT token
-    const token = this.jwtService.sign({ 
+    const token = this.jwtService.sign({
       id: user.id,
       email: user.email,
       username: user.username,
@@ -73,16 +66,6 @@ export class AuthService {
         if (!createAuthDto.initial_balance) {
           throw new BadRequestException('Initial balance is required for SubAgent');
         }
-        if (createAuthDto.parent_agent_id) {
-          // If provided, verify parent agent exists and is a SuperAgent
-          const parentAgent = await this.userRepository.findOne({
-            where: { id: createAuthDto.parent_agent_id, role_id: 1 }
-          });
-          if (!parentAgent) {
-            throw new BadRequestException('Invalid parent agent ID or parent is not a SuperAgent');
-          }
-        }
-        break;
 
       case 3: // SubAdmin
         // Add any specific validation for SubAdmin
