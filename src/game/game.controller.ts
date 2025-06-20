@@ -19,16 +19,16 @@ export class GameController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
+    return this.gameService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
-    return this.gameService.update(+id, updateGameDto);
+    return this.gameService.update(id, updateGameDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.gameService.remove(+id);
+    return this.gameService.remove(id);
   }
 }

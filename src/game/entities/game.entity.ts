@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Category } from './category.entity';
+import { Match } from './match.entity';
 
-@Entity('Game')
+@Entity('game')
 export class Game {
   @ApiProperty({ example: 'GAME001', description: 'Primary key - Game ID' })
   @PrimaryColumn({ length: 255 })
@@ -14,7 +14,7 @@ export class Game {
 
   @ApiProperty({ example: 1, description: 'Category ID of the game' })
   @Column()
-  category_id: number;
+  match_id: number;
 
   @ApiProperty({ example: true, description: 'Whether the game is live' })
   @Column()
@@ -40,6 +40,6 @@ export class Game {
   @UpdateDateColumn()
   modified_at: Date;
 
-  @ManyToOne(() => Category, category => category.id)
-  category: Category;
+  @OneToOne(() => Match, match => match.id)
+  match: Match;
 }
