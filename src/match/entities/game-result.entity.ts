@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Game } from './game.entity';
+import { Match } from './match.entity';
 
 @Entity('game_results')
 export class GameResult {
@@ -20,6 +20,6 @@ export class GameResult {
   @CreateDateColumn()
   result_time: Date;
 
-  @ManyToOne(() => Game, game => game.id)
-  game: Game;
+  @ManyToOne(() => Match, match => match.id)
+  match: Match;
 } 

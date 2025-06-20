@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryColumn, CreateDateColumn, OneToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Game } from './game.entity';
+import { Match } from './match.entity';
+
 
 @Entity('states')
 export class State {
@@ -10,7 +11,7 @@ export class State {
 
   @ApiProperty({ example: 1, description: 'game ID of the game' })
   @Column()
-  game_id: number;
+  match_id: number;
 
   @ApiProperty({ example: true, description: '' })
   @Column()
@@ -24,6 +25,6 @@ export class State {
   @CreateDateColumn()
   created_at: Date;
 
-  @OneToOne(() => Game, game => game.id)
-  game: Game;
+  @OneToOne(() => Match, match => match.id)
+  match: Match;
 }

@@ -1,21 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
+import { IsString, IsBoolean, IsNumber } from 'class-validator';
 
-export class CreateGameDto {
-  @ApiProperty({ example: 'GAME001', description: 'Primary key - Game ID' })
-  @IsString()
-  @IsNotEmpty()
-  id: string;
-
+export class CreateMatchDto {
   @ApiProperty({ example: 'Poker', description: 'Name of the game' })
   @IsString()
-  @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ example: 'India vs Australia', description: 'Title of the match' })
-  @IsString()
-  @IsNotEmpty()
-  match_title: string;
+  @ApiProperty({ example: 1, description: 'League ID of the game' })
+  @IsNumber()
+  league_Id: number;
 
   @ApiProperty({ example: true, description: 'Whether the game is live' })
   @IsBoolean()

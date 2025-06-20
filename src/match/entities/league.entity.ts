@@ -2,8 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToOne } fr
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './category.entity';
 
-@Entity('matches')
-export class Match {
+@Entity('league')
+export class League {
   @ApiProperty({ example: 1, description: 'Primary key - matches ID' })
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id: number;

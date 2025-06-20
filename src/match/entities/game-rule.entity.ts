@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Game } from './game.entity';
+import { Match } from './match.entity';
 
 @Entity('Game Rules')
 export class GameRule {
@@ -24,6 +24,6 @@ export class GameRule {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => Game, game => game.id)
-  game: Game;
+  @ManyToOne(() => Match, match => match.id)
+  match: Match;
 } 

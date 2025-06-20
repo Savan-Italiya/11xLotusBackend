@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { GameModule } from './game/game.module';
 import { PaymentModule } from './payment/payment.module';
 import { BettingModule } from './betting/betting.module';
 import { SportsModule } from './sports/sports.module';
@@ -11,6 +10,7 @@ import { WalletModule } from './wallet/wallet.module';
 import { RoleModule } from './role/role.module';
 import { PassportModule } from '@nestjs/passport';
 import { NotificationsModule } from './notifications/notifications.module';
+import { MatchModule } from './match/match.module';
 
 @Module({
   imports: [
@@ -37,7 +37,6 @@ import { NotificationsModule } from './notifications/notifications.module';
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     UserModule,
-    GameModule,
     PaymentModule,
     BettingModule,
     SportsModule,
@@ -45,6 +44,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     WalletModule,
     RoleModule,
     NotificationsModule,
+    MatchModule,
   ],
   controllers: [],
   providers: [],
